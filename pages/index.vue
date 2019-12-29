@@ -13,8 +13,21 @@
                 background-size:contain contain;
                 `">
                 </div>
+                <!-- <img :src="`${$axios.defaults.baseURL+item.url}`" alt=""> -->
             </el-carousel-item>
         </el-carousel>
+        <!-- 搜索栏 -->
+        <div class="search-center">
+          <el-row  type="flex">
+            <el-col>攻略</el-col>
+            <el-col>酒店</el-col>
+            <el-col>机票</el-col>
+          </el-row>
+          <el-row type="flex">
+            <el-button slot="append" icon="el-icon-search"></el-button>
+  </el-input>
+          </el-row>
+        </div>
     </div>
 </template>
 
@@ -30,8 +43,10 @@ export default {
     this.$axios({
       url:'/scenics/banners'
     }).then(res=>{
-      console.log(res)
+      // console.log(res)
+      //解构，获取data数据
       const {data} =res.data
+      //赋值给banners
       this.banners=data
     })
   }

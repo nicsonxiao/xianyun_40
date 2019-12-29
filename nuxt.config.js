@@ -31,7 +31,9 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    '@/plugins/element-ui'
+    '@/plugins/element-ui',
+    // 其他代码...
+    { src: '@/plugins/localStorage', ssr: false }
   ],
   /*
   ** Nuxt.js dev-modules
@@ -49,6 +51,8 @@ export default {
   ** Axios module configuration
   ** See https://axios.nuxtjs.org/options
   */
+
+  /*baseURL实际上是属于defaults对象的属性*/
   axios: {
     baseURL: "http://127.0.0.1:1337" // 新增axios默认请求路径
   },
