@@ -25,7 +25,6 @@
           </el-row>
           <el-row type="flex">
             <el-button slot="append" icon="el-icon-search"></el-button>
-  </el-input>
           </el-row>
         </div>
     </div>
