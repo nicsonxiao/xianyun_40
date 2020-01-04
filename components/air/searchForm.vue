@@ -76,7 +76,7 @@ export default {
       // 出发城市的下拉列表数据
       departData: [],
       // 到达城市的下拉列表数据
-      destData: []
+      destData: [],
     }
   },
   methods: {
@@ -155,7 +155,7 @@ export default {
     // 确认选择日期时触发
     handleDate(value) {
     this.form.departDate=  moment(value).format('YYYY-MM-DD')
-    console.log(this.form.departDate)
+    // console.log(this.form.departDate)
     },
 
     // 触发和目标城市切换时触发
@@ -189,7 +189,7 @@ export default {
             let valid = true;
 
             Object.keys(rules).forEach(key=>{
-                if(valid===false) return console.log(123);
+                if(valid===false) return;
                 
                 if(rules[key].value===''){
                     this.$message.error(rules[key].err_message)
@@ -201,9 +201,10 @@ export default {
                 path:'/air/flights',
                 query:this.form
             })
+            // console.log(this.form);
+            
     }
-  },
-  mounted() {}
+  }
 }
 </script>
 
