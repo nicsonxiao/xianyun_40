@@ -202,6 +202,7 @@ export default {
                 query:this.form
             })
             // console.log(this.form);
+            this.$store.commit('air/setHistory',this.form)
             
     }
   }

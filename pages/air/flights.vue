@@ -3,8 +3,8 @@
     <el-row type="flex" justify="space-between">
       <!-- 顶部过滤列表 -->
       <div class="flights-content">
-        <!-- 过滤条件  子传父，父组件接收位置--> 
-        <FlightsFilters :data="flightsData" @setDataList="setDataList"/> 
+        <!-- 过滤条件  子传父，父组件接收位置-->
+        <FlightsFilters :data="cacheFlightsData" @setDataList="setDataList" />
 
         <!-- 航班头部布局 -->
         <FlightsListHead />
@@ -25,6 +25,7 @@
       <!-- 侧边栏 -->
       <div class="aside">
         <!-- 侧边栏组件 -->
+        <FlightsAside />
       </div>
     </el-row>
   </section>
@@ -35,15 +36,23 @@ import moment from 'moment'
 import FlightsListHead from '@/components/air/flightsListHead.vue'
 import FlightsItem from '@/components/air/flightsItem.vue'
 import FlightsFilters from '@/components/air/flightsFilters.vue'
+import FlightsAside from '@/components/air/flightsAside.vue'
 
 export default {
   data() {
     return {
       flightsData: {
-        flights:[],
+        flights: [],
         info: {},
-        options:{},
-        company:{}
+        options: {},
+        company: {}
+      },
+      //暂存数据
+      cacheFlightsData: {
+        flights: [],
+        info: {},
+        options: {},
+        company: {}
       },
       // dataList: [],
       pageIndex: 1,
@@ -54,10 +63,25 @@ export default {
   components: {
     FlightsListHead,
     FlightsItem,
-    FlightsFilters
+    FlightsFilters,
+    FlightsAside
+  },
+  watch: {
+    //为了历史选择跳转，即时刷新页面
+    $route() {
+      this.$axios({
+        url: '/airs',
+        params: this.$route.query //路由传参过来的5个参数（对象）
+      }).then(res => {
+        this.flightsData = res.data
+        // this.dataList = this.flightsData.flights.slice(0, 5)
+        //创建缓存数据，一旦赋值就不改变
+        this.cacheFlightsData = { ...res.data }
+        this.total = this.flightsData.total
+      })
+    }
   },
   mounted() {
-
     this.$axios({
       url: '/airs',
       params: this.$route.query //路由传参过来的5个参数（对象）
@@ -65,15 +89,17 @@ export default {
       console.log(res)
       this.flightsData = res.data
       // this.dataList = this.flightsData.flights.slice(0, 5)
+      //创建缓存数据，一旦赋值就不改变
+      this.cacheFlightsData = { ...res.data }
       this.total = this.flightsData.total
     })
   },
   computed: {
     //计算属性，只要dataList中的一个属性发生变化，就会重新计算
-    dataList(){
-      if(!this.flightsData.flights) return []
+    dataList() {
+      if (!this.flightsData.flights) return []
 
-      return  this.flightsData.flights.slice(
+      return this.flightsData.flights.slice(
         (this.pageIndex - 1) * this.pageSize,
         this.pageIndex * this.pageSize
       )
@@ -99,8 +125,10 @@ export default {
       // )
     },
     //子传父，父组件接收并触发的事件
-    setDataList(arr){
-        this.flightsData.flights=arr
+    setDataList(arr) {
+      this.flightsData.flights = arr
+      //修改显示的条数
+      this.total = arr.length
     }
   }
 }

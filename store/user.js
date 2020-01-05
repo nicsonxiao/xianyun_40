@@ -25,5 +25,14 @@ export const actions={
             store.commit('setUserInfo', res.data)
             return true
         })
+    },
+    sendCaptcha(store,data){
+        return this.$axios({
+            url:'/captchas',
+            method:'POST',
+            data:{
+                tel:data
+            }
+        })
     }
 }
