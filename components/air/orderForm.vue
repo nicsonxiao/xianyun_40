@@ -164,6 +164,13 @@ export default {
         data
       }).then(res => {
         console.log(res)
+        const id=res.data.data.id
+        this.$router.push({
+          path:'/air/pay',
+          query:{
+            id
+          }
+        })
       })
     },
     //选择保险，传入保险id
