@@ -3,16 +3,23 @@
     <div v-for="(item,index) in articleList" :key="index">
       <!-- 三张图以内，左右结构 -->
       <div v-if="item.images.length<3" class="item leRi">
-        <img v-for="(item2,index) in item.images.slice(0,1)" :key="index" :src="item2" />
+        <nuxt-link :to="`/post/detail?id=${item.id}`">
+          <img v-for="(item2,index) in item.images.slice(0,1)" :key="index" :src="item2" />
+        </nuxt-link>
         <div class="right">
-          <h4>{{item.title}}</h4>
+          <nuxt-link :to="`/post/detail?id=${item.id}`">
+            <h4>{{item.title}}</h4>
+          </nuxt-link>
           <div class="para">{{item.summary}}</div>
           <div class="bott">
             <div class="btLF">
               <i class="el-icon-location-outline">&nbsp;{{item.cityName}}</i>
               <nuxt-link to="#">
                 by
-                <img class="bigImg" :src="`${$axios.defaults.baseURL+item.account.defaultAvatar}`" />
+                <img
+                  class="bigImg"
+                  :src="`${$axios.defaults.baseURL+item.account.defaultAvatar}`"
+                />
                 <span>{{item.account.nickname}}</span>
               </nuxt-link>
               <i class="el-icon-view">&nbsp;{{item.watch}}</i>
@@ -23,10 +30,18 @@
       </div>
       <!-- 三张图，上下结构 -->
       <div class="item" v-if="item.images.length>=3">
-        <h4>{{item.title}}</h4>
+        <nuxt-link :to="`/post/detail?id=${item.id}`">
+          <h4>{{item.title}}</h4>
+        </nuxt-link>
         <div class="para">{{item.summary}}</div>
         <div class="imgs">
-          <img v-for="(item1,index) in item.images.slice(0,3)" :key="index" :src="item1" />
+          <nuxt-link
+            :to="`/post/detail?id=${item.id}`"
+            v-for="(item1,index) in item.images.slice(0,3)"
+            :key="index"
+          >
+            <img :src="item1" />
+          </nuxt-link>
         </div>
         <div class="bott">
           <div class="btLF">
@@ -61,7 +76,7 @@ export default {
   .leRi {
     display: flex;
     justify-content: space-between;
-    > img {
+    /deep/ a > img {
       flex: 1;
       width: 220px;
       height: 150px;
@@ -110,8 +125,8 @@ h4 {
       justify-content: space-between;
       align-items: center;
       margin-right: 10px;
-      >span{
-      color: orange;
+      > span {
+        color: orange;
       }
     }
     > i:nth-child(1) {
@@ -139,7 +154,7 @@ h4 {
   justify-content: space-between;
   align-items: center;
   margin: 15px 0;
-  > img {
+  /deep/a>img {
     width: 220px;
     height: 150px;
     object-fit: cover;
