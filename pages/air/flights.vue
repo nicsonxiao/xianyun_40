@@ -86,7 +86,7 @@ export default {
       url: '/airs',
       params: this.$route.query //路由传参过来的5个参数（对象）
     }).then(res => {
-      console.log(res)
+      // console.log(res)
       this.flightsData = res.data
       // this.dataList = this.flightsData.flights.slice(0, 5)
       //创建缓存数据，一旦赋值就不改变
